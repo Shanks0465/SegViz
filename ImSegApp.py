@@ -7,5 +7,6 @@ from tkinter import filedialog
 import os
 
 App = Tk()
-App.iconbitmap(default='transparent.ico')
+App.iconbitmap(default='favicon.ico')
+App.title("Image Segmentation Tool")
 mainloop()
