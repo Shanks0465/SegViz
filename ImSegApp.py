@@ -21,8 +21,17 @@ App.geometry("400x400")
 # Functions and Actions
 
 def selectfolder():
+    global filename
+    global directory
+    directory=[]
+    filename = filedialog.askdirectory()
+    print(filename)
+    for r, d, files in os.walk(filename):
+        for file in files:
+            directoryview.insert(END, file)
     landingPage.destroy()
     imsegpage.pack(fill=BOTH)
+
 
 #--------------------------------------------------------------------------------------------------
 
@@ -50,9 +59,14 @@ global imsegpage
 imsegpage = Frame(App)
 imsegcanvas = Canvas(imsegpage,width=1000,height=1000,scrollregion=(0,0,1000,1000))
 
+# List Box for files
+global directoryview
+directoryview=Listbox(imsegpage)
+directoryview.pack(side="left", fill=Y)
+
 # Scrollbars for Image
-scroll_x = Scrollbar(imsegpage, orient="horizontal", command=canvas.xview)
-scroll_y = Scrollbar(imsegpage, orient="vertical", command=canvas.yview)
+scroll_x = Scrollbar(imsegpage, orient="horizontal", command=imsegcanvas.xview)
+scroll_y = Scrollbar(imsegpage, orient="vertical", command=imsegcanvas.yview)
 imsegcanvas.configure(yscrollcommand=scroll_y.set, xscrollcommand=scroll_x.set)
 scroll_x.pack(side=BOTTOM,fill=X)
 scroll_y.pack(side=RIGHT,fill=Y)
