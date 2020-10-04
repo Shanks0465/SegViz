@@ -33,6 +33,10 @@ def selectfolder():
     imsegpage.pack(fill=BOTH)
 
 
+def showimg(e):
+    n = directoryview.curselection()
+    fname = directoryview.get(n)
+    print(fname)
 #--------------------------------------------------------------------------------------------------
 
 # Landing Page
@@ -56,12 +60,17 @@ landingPage.pack()
 
 # Image Segmentation Tool
 global imsegpage
+global canvasimage
+global wt,ht
 imsegpage = Frame(App)
-imsegcanvas = Canvas(imsegpage,width=1000,height=1000,scrollregion=(0,0,1000,1000))
+imsegcanvas = Canvas(imsegpage,width=1000,height=1000,bg="blue",scrollregion=(0,0,1000,1000))
+canvasimage = PhotoImage(file="segvizbg.png")
+imsegcanvas.create_image(0,0, anchor=NW, image=canvasimage)
 
 # List Box for files
 global directoryview
 directoryview=Listbox(imsegpage)
+directoryview.bind("<<ListboxSelect>>", showimg)
 directoryview.pack(side="left", fill=Y)
 
 # Scrollbars for Image
