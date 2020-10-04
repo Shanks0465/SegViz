@@ -22,21 +22,29 @@ App.geometry("400x400")
 
 def selectfolder():
     global filename
-    global directory
-    directory=[]
     filename = filedialog.askdirectory()
     print(filename)
     for r, d, files in os.walk(filename):
         for file in files:
-            directoryview.insert(END, file)
+            directoryview.insert(END,file)
     landingPage.destroy()
     imsegpage.pack(fill=BOTH)
 
 
-def showimg(e):
+def showimg(event):
     n = directoryview.curselection()
     fname = directoryview.get(n)
-    print(fname)
+    imsegcanvas.delete("all")
+    imgpath=filename+"/"+fname
+    img = Image.open(imgpath)
+    imgwidth, imgheight = img.size
+    # img = img.resize((300, 300), Image.ANTIALIAS)
+    img = ImageTk.PhotoImage(img)
+    imsegcanvas.config(width=imgwidth,height=imgheight,scrollregion=(0,0,imgwidth,imgheight))
+    imsegcanvas.create_image(0,0, anchor=NW, image=img)
+    imsegcanvas.image=img
+
+
 #--------------------------------------------------------------------------------------------------
 
 # Landing Page
@@ -61,11 +69,18 @@ landingPage.pack()
 # Image Segmentation Tool
 global imsegpage
 global canvasimage
+global imsegcanvas
+global imageoncanvas
 global wt,ht
+
 imsegpage = Frame(App)
-imsegcanvas = Canvas(imsegpage,width=1000,height=1000,bg="blue",scrollregion=(0,0,1000,1000))
-canvasimage = PhotoImage(file="segvizbg.png")
+currentimage=Image.open("segvizbg.png")
+currentimage=currentimage.resize((250, 250), Image.ANTIALIAS)
+wt,ht=currentimage.size
+imsegcanvas = Canvas(imsegpage,width=wt,height=ht)
+canvasimage = ImageTk.PhotoImage(currentimage)
 imsegcanvas.create_image(0,0, anchor=NW, image=canvasimage)
+
 
 # List Box for files
 global directoryview
@@ -96,4 +111,4 @@ tabControl.pack(side=TOP,fill=X)
 imsegcanvas.pack()
 
 
-mainloop()
+App.mainloop()
