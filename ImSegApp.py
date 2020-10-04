@@ -28,6 +28,7 @@ def selectfolder():
         for file in files:
             directoryview.insert(END,file)
     landingPage.destroy()
+    App.geometry("{0}x{1}+0+0".format(App.winfo_screenwidth()-3, App.winfo_screenheight()-3))
     imsegpage.pack(fill=BOTH)
 
 
