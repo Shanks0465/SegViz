@@ -1,3 +1,4 @@
+#--------------------------------------------------------------------------------------------------
 # Import required libraries
 
 from tkinter import *
@@ -9,15 +10,13 @@ import cv2
 from PIL import Image, ImageTk
 import numpy as np
 import os
+
 #--------------------------------------------------------------------------------------------------
-
-
 
 global array
 global array2
 array=[]
 array2=[]
-
 
 #--------------------------------------------------------------------------------------------------
 
@@ -25,6 +24,7 @@ App = Tk()
 App.iconbitmap(default='favicon.ico')
 App.title("Image Segmentation Tool")
 App.geometry("400x400")
+
 #--------------------------------------------------------------------------------------------------
 
 # Functions and Actions
@@ -32,6 +32,9 @@ App.geometry("400x400")
 def selectfolder():
     global filename
     filename = filedialog.askdirectory()
+    isFile=os.path.isdir(filename + "/" + "Segmentation")
+    if(not isFile):
+        os.mkdir(filename + "/" + "Segmentation")
     print(filename)
     for r, d, files in os.walk(filename):
         for file in files:
@@ -42,18 +45,24 @@ def selectfolder():
     imsegpage.pack(fill=BOTH)
 
 
+
+
 def showimg(event):
     n = directoryview.curselection()
-    global fname,img
+    global fname,img,segmap
     fname = directoryview.get(n)
     imsegcanvas.delete("all")
     imgpath=filename+"/"+fname
     img = Image.open(imgpath)
     imgwidth, imgheight = img.size
     # img = img.resize((300, 300), Image.ANTIALIAS)
+
+    # Segmentation Map
+    segmap = np.zeros((imgheight, imgwidth, 3), np.uint8)
     img = ImageTk.PhotoImage(img)
     imsegcanvas.config(width=imgwidth,height=imgheight,scrollregion=(0,0,imgwidth,imgheight))
     imsegcanvas.create_image(0,0, anchor=NW, image=img)
+
 
 
 
@@ -77,22 +86,29 @@ def point(event):
     except:
         messagebox.showerror("Error", "Error Occured")
 
+
+
+
 def clearcanvas(event):
     imsegcanvas.delete("all")
     imsegcanvas.create_image(0, 0, anchor=NW, image=img)
     imsegcanvas.image = img
     messagebox.showinfo("Message", "Segmap Cleared")
 
+
+
+
 def genpolygon(event):
     try:
         imsegcanvas.create_polygon(array, outline=color_code, fill=color_code, width=3, stipple="gray50")
-        # pts = np.array(array2, np.int32)
-        # pts = pts.reshape((-1, 1, 2))
-        # cv2.fillPoly(segmap, [pts], [clf[0][2],clf[0][1],clf[0][0]], 1)
+        pts = np.array(array2, np.int32)
+        pts = pts.reshape((-1, 1, 2))
+        cv2.fillPoly(segmap, [pts], [clf[0][2],clf[0][1],clf[0][0]], 1)
         array2.clear()
         array.clear()
     except:
-        messagebox.showerror("Error", "Choose Color")
+        messagebox.showerror("Error", "Error Occured")
+
 
 
 
@@ -105,6 +121,15 @@ def outline(event):
         array2.append([x1, y1])
     except:
         messagebox.showerror("Error", "Error Occured")
+
+
+
+
+def save():
+    print(filename+"/Segmentation/"+fname)
+    cv2.imwrite(filename+"/Segmentation/"+fname, segmap)
+    messagebox.showinfo("Message", "Image Saved")
+
 
 
 
@@ -136,6 +161,7 @@ global imsegcanvas
 global imageoncanvas
 global wt,ht
 
+
 imsegpage = Frame(App)
 currentimage=Image.open("segvizbg.png")
 currentimage=currentimage.resize((250, 250), Image.ANTIALIAS)
@@ -143,6 +169,7 @@ wt,ht=currentimage.size
 imsegcanvas = Canvas(imsegpage,width=wt,height=ht)
 canvasimage = ImageTk.PhotoImage(currentimage)
 imsegcanvas.create_image(0,0, anchor=NW, image=canvasimage)
+
 
 
 # List Box for files
@@ -162,7 +189,7 @@ scroll_y.pack(side=RIGHT,fill=Y)
 tabControl = ttk.Notebook(imsegpage)
 tab1 = ttk.Frame(tabControl)
 selectcolor = Button(tab1,text="Select Color",command=choose_color)
-save = Button(tab1,text="Save Segmentation")
+save = Button(tab1,text="Save Segmentation",command=save)
 tabControl.add(tab1, text='Tools')
 
 # Pack the widgets
