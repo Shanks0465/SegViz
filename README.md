@@ -56,9 +56,9 @@ Setup a suitable Python Environment or [PyCharm Environment](https://www.jetbrai
 ```sh
 git clone https://github.com/Shanks0465/SegViz.git
 ```
-2. Install the required libraries
+2. Install the required libraries. (Tkinter comes installed with Python)
 ```sh
-cd SegViz && pip install -r requirements.txt
+cd SegViz && pip install opencv-python numpy Pillow
 ```
 3. Download ActiveTcl for Tkinter [ActiveTCL](https://www.activestate.com/products/tcl/downloads/)
 
