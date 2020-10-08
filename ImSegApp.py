@@ -15,8 +15,10 @@ import os
 
 global array
 global array2
+global array3
 array=[]
 array2=[]
+array3=[]
 
 #--------------------------------------------------------------------------------------------------
 
@@ -131,9 +133,16 @@ def save():
     messagebox.showinfo("Message", "Image Saved")
 
 
+# def bbox(event):
+#     if len(array3)>=3:
+#         imsegcanvas.create_rectangle(array3[0],array3[1],array3[2],array3[3],fill="")
+#         array3.clear()
+#     x1, y1 = (imsegcanvas.canvasx(event.x) - 1), (imsegcanvas.canvasy(event.y) - 1)
+#     imsegcanvas.create_oval(x1 - 2, y1 - 2, x1 + 2, y1 + 2, fill="#ff0000")
+#     array3.append(x1)
+#     array3.append(y1)
 
-
-    #--------------------------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------
 
 # Landing Page
 global landingPage
@@ -199,10 +208,12 @@ tabControl.pack(side=TOP,fill=X)
 
 # Bind the canvas actions
 
-imsegcanvas.bind("<Button-1>",point)
+imsegcanvas.bind("<Double-1>",point)
+# imsegcanvas.bind("<Button-1>",bbox)
 imsegcanvas.bind("<Button-3>",genpolygon)
 imsegcanvas.bind("<B1-Motion>",outline)
 imsegcanvas.bind("<Button-2>",clearcanvas)
+
 #--------------------------------------------------------------------------------------------------
 
 imsegcanvas.pack()
