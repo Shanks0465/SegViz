@@ -1,10 +1,7 @@
 
-<!-- PROJECT LOGO -->
+![facebook_cover_photo_2](https://user-images.githubusercontent.com/48712410/95494985-651f8c00-09bc-11eb-8d6d-e1b169271be6.png)
 <br />
 <p align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
 
   <h3 align="center">SegViz -  A Simple Segmentation Tool</h3>
 
