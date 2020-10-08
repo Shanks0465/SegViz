@@ -72,6 +72,13 @@ python ImSegApp.py
 <!-- USAGE EXAMPLES -->
 ## Usage
 
+| Event  | Action |
+| ------------- | ------------- |
+| Double Click Left  | Place a red point marking region   |
+| Left Click and Drag  | Draw boundary |
+| Right Click | Draw the segmentation Map |
+| Middle Click | Clear Canvas |
+
 * Run the App, You'll be presented with mini application view. Click on Select Folder and Choose the image folder.
 
 ![SegVizLanding](https://user-images.githubusercontent.com/48712410/95497131-7ae28080-09bf-11eb-8fd1-76150d44a85c.PNG)
