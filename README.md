@@ -44,7 +44,7 @@ This application was built using the following Libraries.
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To start segmenting your images, get a local copy up and running follow these simple steps.
+To start segmenting your images or build upon this code base, get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
